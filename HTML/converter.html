@@ -81,25 +81,41 @@
     //     ReactDOM.render(<App />, root);
     // }
     function App() { 
-        const [counter, setCounter] = React.useState(0);
-        // console.log(data, "data");
-        const onClick = () => {
-            // counter = counter + 1;
-            // console.log(counter);
-            // setCounter(counter + 1); // state값을 지정해주는 방법
-            setCounter((current) => current + 1) // state 유지해 다른 업데이트를 대비하는 방법 (함수 전달)
+        const [minutes, setMin] = React.useState(0);
+        const onChange = (event) => {
+            setMin(event.target.value);
         }
-        const minus = () => {
-            // setCounter(counter -1);
-            setCounter((current) => current - 1)
-        }
-        console.log("rendered");
-        console.log(counter);
+        const [hours, setHours] = React.useState();
+        const [flipped, setFlipped] = React.useState(false);
+        const reset = () => setMin(0);
+        const onFlip = () => setFlipped((current) => !current);
         return (
             <div>
-                <h3>Total Clicks: {counter}</h3>
-                <button onClick={onClick}>Click me</button>
-                <button onClick={minus}>Click me(minus)</button>
+                <h3>Super Converter</h3>
+                
+                <div>
+                    <label htmlFor="minutes">Minutes</label>
+                    <input 
+                        value={minutes}
+                        id="minutes" 
+                        placeholder="Minutes" 
+                        type="number" 
+                        onChange={onChange}
+                        disabled={flipped === true}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="hours">Hours</label>
+                    <input 
+                        value={Math.round(minutes / 60)}
+                        id="hours" 
+                        placeholder="Hours" 
+                        type="number" 
+                        disabled={flipped === false}
+                    />
+                </div>
+                <button onClick={reset}>Reset</button>
+                <button onClick={flipped}>Flip</button>
             </div>
         );
     }
