@@ -81,14 +81,17 @@
     //     ReactDOM.render(<App />, root);
     // }
     function App() { 
-        const [minutes, setMin] = React.useState(0);
+        const [amount, setamount] = React.useState(0);
         const onChange = (event) => {
-            setMin(event.target.value);
+            setamount(event.target.value);
         }
         const [hours, setHours] = React.useState();
         const [flipped, setFlipped] = React.useState(false);
-        const reset = () => setMin(0);
-        const onFlip = () => setFlipped((current) => !current);
+        const reset = () => setamount(0);
+        const onFlip = () => {
+            reset();
+            setFlipped((current) => !current);
+        }
         return (
             <div>
                 <h3>Super Converter</h3>
@@ -96,26 +99,27 @@
                 <div>
                     <label htmlFor="minutes">Minutes</label>
                     <input 
-                        value={minutes}
+                        value={flipped ? amount * 60 : amount}
                         id="minutes" 
                         placeholder="Minutes" 
                         type="number" 
                         onChange={onChange}
-                        disabled={flipped === true}
+                        disabled={flipped}
                     />
                 </div>
                 <div>
                     <label htmlFor="hours">Hours</label>
                     <input 
-                        value={Math.round(minutes / 60)}
+                        value={flipped ? amount : Math.round(amount / 60)}
                         id="hours" 
                         placeholder="Hours" 
                         type="number" 
-                        disabled={flipped === false}
+                        onChange={onChange}
+                        disabled={!flipped}
                     />
                 </div>
                 <button onClick={reset}>Reset</button>
-                <button onClick={flipped}>Flip</button>
+                <button onClick={onFlip}>Flip</button>
             </div>
         );
     }
