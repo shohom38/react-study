@@ -5,21 +5,39 @@ import styles from "./Home.module.css";
 function Home() {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([]);
+  const genre = ["Action", "Comedy", "Sci-Fi"];
   const getMovies = async () => {
     const json = await (
       await fetch(
         `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year`
       )
     ).json();
+        
+
     setMovies(json.data.movies);
     setLoading(false);
   };
+//   const handleGenre = async () => {
+//       const json = await (
+//           await fetch(
+//             `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=genre`
+//           )
+//       ).json();
+
+//     setMovies(json.data.genres);
+//   }
   useEffect(() => {
     getMovies();
+    // handleGenre();
   }, []);
   console.log(movies.genres);
   return (
       <div className={styles.container}>
+          <div>
+              {genre.map((item, index) => (
+                  <button key={index}>{item}</button>
+              ))}
+          </div>
       {loading ? (
           <h1>Loading...</h1>
           ) : (
