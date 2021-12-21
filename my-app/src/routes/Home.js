@@ -5,6 +5,7 @@ import styles from "./Home.module.css";
 function Home() {
     const [loading, setLoading] = useState(true);
     const [movies, setMovies] = useState([]);
+    const [genres, setGenre] = useState([]);
     const arrGenre = ["Action", "Comedy", "Sci-Fi"];
     const getMovies = async () => {
         const json = await (
@@ -16,26 +17,25 @@ function Home() {
         setMovies(json.data.movies);
         setLoading(false);
     };
-//   const handleGenre = async () => {
-//       const json = await (
-//           await fetch(
-//             `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=genre`
-//           )
-//       ).json();
-
-//     setMovies(json.data.genres);
-//   }
+  const HandleGenre = async () => {
+      const json = await (
+          await fetch(
+            `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&genre=${arrGenre}`
+          )
+      ).json();
+      console.log(arrGenre);
+  }
   useEffect(() => {
     getMovies();
-    // handleGenre();
+    HandleGenre();
   }, []);
-  console.log(movies.genres);
   console.log(movies);
+  console.log(genres);
   return (
         <div className={styles.container}>
-          <div>
+          <div> 
               {arrGenre.map((item, index) => (
-                  <button key={index}>{item}</button>
+                  <button key={index} onClick={HandleGenre}>{item}</button>
               ))}
           </div>
             {loading ? (
