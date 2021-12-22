@@ -16,18 +16,20 @@ function Home() {
 
         setMovies(json.data.movies);
         setLoading(false);
-    };
-  const HandleGenre = async () => {
-      const json = await (
+      };
+      const HandleGenre = async () => {
+        const json = await (
           await fetch(
             `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&genre=${arrGenre}`
-          )
-      ).json();
-      console.log(arrGenre);
+            )
+            ).json();
+            // console.log(arrGenre);
+            console.log(json.data);
+            setGenre(json.data);
   }
   useEffect(() => {
+    // HandleGenre();
     getMovies();
-    HandleGenre();
   }, []);
   console.log(movies);
   console.log(genres);
