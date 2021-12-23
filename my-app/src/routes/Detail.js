@@ -16,7 +16,7 @@ function Detail() {
     }
     useEffect(() => {
         getDetail();
-    })
+    });
     // console.log(id);
     // console.log(movie.year);
     // console.log(movie);
