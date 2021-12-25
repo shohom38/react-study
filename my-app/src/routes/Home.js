@@ -40,9 +40,9 @@ function Home() {
   console.log(genres);
   return (
         <div className={styles.container}>
-          <div> 
+          <div className={styles.navWrap}> 
               {arrGenre.map((item, index) => (
-                  <button key={index} onClick={ () => HandleGenre(item)}>{item}</button>
+                  <button className={styles.navBtn} key={index} onClick={ () => HandleGenre(item)}>{item}</button>
               ))}
           </div>
             {loading ? (
