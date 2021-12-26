@@ -7,7 +7,7 @@ function Home() {
     const [movies, setMovies] = useState([]);
     const [genres, setGenre] = useState([]);
     const arrGenre = ["Action", "Comedy", "Sci-Fi", "Adventure", "Animation", "Biography", "Crime", "Drama", "Family", "Music", "Romance"];
-    const getMovies = async () => {
+    const getMovies = async (genres) => {
         const json = await (
         await fetch(
             `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year`
@@ -32,17 +32,15 @@ function Home() {
             setLoading(false);
   }
   useEffect(() => {
-    getMovies();
-    HandleGenre(genres);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getMovies(genres);
+  }, [genres]);
   console.log(movies);
   console.log(genres);
   return (
         <div className={styles.container}>
           <div className={styles.navWrap}> 
               {arrGenre.map((item, index) => (
-                  <button className={styles.navBtn} key={index} onClick={ () => HandleGenre(item)}>{item}</button>
+                  <button className={styles.navBtn} key={index} onClick={() => HandleGenre(item)}>{item}</button>
               ))}
           </div>
             {loading ? (
