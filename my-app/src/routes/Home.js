@@ -10,27 +10,30 @@ function Home() {
     const getMovies = async (genres) => {
         const json = await (
         await fetch(
-            `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year`
+            `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&genre=${genres ? genres : `&sort_by=year` }`
         )
         ).json();
-
+        console.log(json.data.movies);
+        const movie = json.data.movies;
+        // console.log(movie.map((item) => (item.genres)));
         setMovies(json.data.movies);
+        setGenre(movie.map((item) => (item.genres)));
         setLoading(false);
       };
-      const HandleGenre = async (e) => {
-        const json = await (
-          await fetch(
-            `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&genre=${e}`
-            )
-            ).json();
-            // console.log(arrGenre);
-            console.log(e);
-            console.log(json);
-            setGenre(e);
-            setMovies(json.data.movies);
-            console.log(e);
-            setLoading(false);
-  }
+  //     const HandleGenre = async (e) => {
+  //       const json = await (
+  //         await fetch(
+  //           `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&genre=${e}`
+  //           )
+  //           ).json();
+  //           // console.log(arrGenre);
+  //           console.log(e);
+  //           console.log(json);
+  //           setGenre(e);
+  //           setMovies(json.data.movies);
+  //           console.log(e);
+  //           setLoading(false);
+  // }
   useEffect(() => {
     getMovies(genres);
   }, [genres]);
@@ -40,7 +43,7 @@ function Home() {
         <div className={styles.container}>
           <div className={styles.navWrap}> 
               {arrGenre.map((item, index) => (
-                  <button className={styles.navBtn} key={index} onClick={() => HandleGenre(item)}>{item}</button>
+                  <button className={styles.navBtn} key={index} onClick={() => getMovies(genres)}>{item}</button>
               ))}
           </div>
             {loading ? (
