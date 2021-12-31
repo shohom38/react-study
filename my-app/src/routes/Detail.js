@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../components/Movie.module.css";
@@ -25,12 +26,17 @@ function Detail() {
             {loading ? (
                 <h1>Loading...</h1>
                 ) : (
-                    <div className={styles.detail_cover}>
-                        <h2 className={styles.movie_title}>{movie.title}</h2>
-                        <h3 className={styles.movie_year}>{movie.year}</h3>
-                        <img alt={movie.title} src={movie.medium_cover_image} />
-                        <p>{movie.description_full}</p>
-        </div>
+                    <div>
+                        <div className={styles.navWrap}>
+                            <Link to={`/`}><span className={styles.link_span}>RANK HOME</span></Link>
+                        </div>
+                        <div className={styles.detail_cover}>
+                            <h2 className={styles.movie_title}>{movie.title}</h2>
+                            <h3 className={styles.movie_year}>{movie.year}</h3>
+                            <img alt={movie.title} src={movie.medium_cover_image} />
+                            <p>{movie.description_full}</p>
+                        </div>
+                    </div>
       )}
     </div>
   );

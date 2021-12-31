@@ -20,23 +20,23 @@
     grid-gap: 100px;
     padding: 70px 50px 50px 50px;
     width: 80%;
-    margin-top: 80px;
+    margin-top: 140px;
 }
 
 .navWrap {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px;
     box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 
                 0 8px 16px -8px rgba(0, 0, 0, 0.3), 
                 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
     background-color: #fff;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
+    justify-content: space-around;
     padding: 20px 20px;
+    z-index: 1;
 
 }
 
@@ -48,7 +48,7 @@
     border: none;
     background-color: #eee;
     width: 80px;
-    line-height: 30px;
+    line-height: 80px;
     vertical-align: middle;
     transition: all 0.3s;
     border-radius: 3px;
@@ -59,8 +59,9 @@
 .navBtn:hover {
     background-color: #cab4b4;
     width: 75px;
-    line-height: 30px;
+    line-height: 50px;
     border-radius: 5px;
+    color: #fff
 }
 
 @media screen and (max-width: 1090px) {

@@ -5,9 +5,9 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/hello">
+        {/* <Route path="/hello">
           <h1>Helllooo</h1>
-        </Route>
+        </Route> */}
         <Route path="/movie/:id">
           <Detail />
         </Route>
