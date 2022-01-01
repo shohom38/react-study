@@ -40,9 +40,9 @@
 
 }
 
-.navWrap > .navBtn + .navBtn {
+/* .navWrap > .navBtn + .navBtn {
     margin-left: 10px;
-}
+} */
 
 .navBtn {
     border: none;
