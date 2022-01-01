@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from "../components/Movie.module.css";
 import styled from "styled-components";
 
 
@@ -75,6 +74,11 @@ const CovImg = styled.img`
                 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
 `;
 
+const LinkSpan = styled.span`
+    text-decoration: none;
+    color: #000;
+`;
+
 function Detail() {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
@@ -101,11 +105,11 @@ function Detail() {
                     ) : (
                         <div>
                             <NavWrap>
-                                <Link to={`/`}><span className={styles.link_span}>RANK HOME</span></Link>
+                                <Link to={`/`}><LinkSpan>RANK HOME</LinkSpan></Link>
                             </NavWrap>
                             <DetailCov>
                                 <MovieTitle>{movie.title}</MovieTitle>
-                                <Year className={styles.movie_year}>{movie.year}</Year>
+                                <Year>{movie.year}</Year>
                                 <CovImg alt={movie.title} src={movie.medium_cover_image} />
                                 <p>{movie.description_full}</p>
                             </DetailCov>
