@@ -1,6 +1,73 @@
 import { useEffect, useState } from "react";
 import Movie from "../components/Movie";
-import styles from "./Home.module.css";
+// import styles from "./Home.module.css";
+import styled from "styled-components";
+
+const Container = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const NavWrap = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 
+              0 8px 16px -8px rgba(0, 0, 0, 0.3), 
+              0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+  background-color: #fff;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  padding: 20px 20px;
+  z-index: 1;
+`;
+
+const NavBtn = styled.button`
+  border: none;
+  background-color: #eee;
+  width: 80px;
+  line-height: 80px;
+  vertical-align: middle;
+  transition: all 0.3s;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: #cab4b4;
+    width: 75px;
+    line-height: 50px;
+    border-radius: 5px;
+    color: #fff
+  }
+`
+
+const MovieWrap = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, minmax(400px, 1fr));
+    grid-gap: 100px;
+    padding: 70px 50px 50px 50px;
+    width: 80%;
+    margin-top: 140px;
+
+    @media screen and (max-width: 1090px) {
+      grid-template-columns: 1fr;
+      width: 100%;
+  }
+`;
+
+const Logo = styled.h1`
+    cursor: pointer;
+`;
+
+const Loadings = styled.p`
+    margin-top: 200px;
+    font-weight: bold;
+    font-size: 30px;
+`;
 
 function Home() {
     const [loading, setLoading] = useState(true);
@@ -12,6 +79,7 @@ function Home() {
     const getMovies = async (genre) => {
         //클릭 시 장르 세팅
         setGenre(genre);
+        setLoading(true);
         // 처음
         const json = await (
         await fetch(
@@ -48,19 +116,21 @@ function Home() {
   // console.log(movies);
   // console.log(genres);
   return (
-        <div className={styles.container}>
-          <div className={styles.navWrap}> 
-            <h1 onClick={() => getMovies()}>RANK MOVIE</h1>
+    <div>
+
+        <Container>
+          <NavWrap> 
+            <Logo onClick={() => getMovies()}>RANK MOVIE</Logo>
             <div>
               {arrGenre.map((item, index) => (
-                  <button className={styles.navBtn} key={index} onClick={() => getMovies(item)}>{item}</button>
+                  <NavBtn key={index} onClick={() => getMovies(item)}>{item}</NavBtn>
               ))}
             </div>
-          </div>
+          </NavWrap>
             {loading ? (
-                <h1>Loading...</h1>
+                <Loadings>Loading...</Loadings>
                 ) : (
-                    <div className={styles.movies}>
+                    <MovieWrap>
                 {movies.map((movie) => (
                     <Movie
                     key={movie.id}
@@ -72,8 +142,9 @@ function Home() {
                     genres={movie.genres}
                     />
                 ))}
-        </div>
+        </MovieWrap>
       )}
+    </Container>
     </div>
   );
 }
