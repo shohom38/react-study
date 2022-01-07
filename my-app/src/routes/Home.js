@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Movie from "../components/Movie";
 import styled from "styled-components";
+import axios from "axios";
 
 const Container = styled.div`
   height: 100%;
@@ -80,14 +81,23 @@ function Home() {
         setGenre(genre);
         setLoading(true);
         // 처음
-        const json = await (
-        await fetch(
-            `https://yts.mx/api/v2/list_movies.json?${rateYear}${genres ? rateGenr : ''}`
-            // `https://yts.mx/api/v2/list_movies.json?&sort_by=year`
-        )
-        ).json();
+        // const json = await (
+        // await fetch(
+        //     `https://yts.mx/api/v2/list_movies.json?${rateYear}${genres ? rateGenr : ''}`
+        //     // `https://yts.mx/api/v2/list_movies.json?&sort_by=year`
+        // )
+        // ).json();
+        
+        await axios.get(
+          `https://yts.mx/api/v2/list_movies.json?${rateYear}${genres ? rateGenr : ''}`
+        ).then((Response) => {
+          console.log(Response.data.data.movies);
+          setMovies(Response.data.data.movies);
+        }).catch((Error) => {
+          console.log(Error);
+        })
+
         console.log(genre);
-        setMovies(json.data.movies);
         setLoading(false);
         // console.log(json.data.movies);
         // const movie = json.data.movies;
