@@ -4,6 +4,47 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 
+function Detail() {
+    const {id} = useParams();
+    const [loading, setLoading] = useState(true);
+    const [movie, setMovie] = useState([]);
+    const getDetail = async () => {
+        const detail = await (
+            await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+            ).json();
+            setMovie(detail.data.movie);
+            setLoading(false);
+    }
+    useEffect(() => {
+        getDetail();
+    });
+    // console.log(id);
+    // console.log(movie.year);
+    // console.log(movie);
+    return (
+        <div>
+
+            <Container>
+                {loading ? (
+                    <h1>Loading...</h1>
+                    ) : (
+                        <div>
+                            <NavWrap>
+                                <Link to={`/`}><LinkSpan>RANK HOME</LinkSpan></Link>
+                            </NavWrap>
+                            <DetailCov>
+                                <MovieTitle>{movie.title}</MovieTitle>
+                                <Year>{movie.year}</Year>
+                                <CovImg alt={movie.title} src={movie.medium_cover_image} />
+                                <p>{movie.description_full}</p>
+                            </DetailCov>
+                        </div>
+            )}
+            </Container>
+        </div>
+  );
+}
+
 const Container = styled.div`
   height: 100%;
   display: flex;
@@ -78,46 +119,5 @@ const LinkSpan = styled.span`
     text-decoration: none;
     color: #000;
 `;
-
-function Detail() {
-    const {id} = useParams();
-    const [loading, setLoading] = useState(true);
-    const [movie, setMovie] = useState([]);
-    const getDetail = async () => {
-        const detail = await (
-            await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
-            ).json();
-            setMovie(detail.data.movie);
-            setLoading(false);
-    }
-    useEffect(() => {
-        getDetail();
-    });
-    // console.log(id);
-    // console.log(movie.year);
-    // console.log(movie);
-    return (
-        <div>
-
-            <Container>
-                {loading ? (
-                    <h1>Loading...</h1>
-                    ) : (
-                        <div>
-                            <NavWrap>
-                                <Link to={`/`}><LinkSpan>RANK HOME</LinkSpan></Link>
-                            </NavWrap>
-                            <DetailCov>
-                                <MovieTitle>{movie.title}</MovieTitle>
-                                <Year>{movie.year}</Year>
-                                <CovImg alt={movie.title} src={movie.medium_cover_image} />
-                                <p>{movie.description_full}</p>
-                            </DetailCov>
-                        </div>
-            )}
-            </Container>
-        </div>
-  );
-}
 
 export default Detail;
