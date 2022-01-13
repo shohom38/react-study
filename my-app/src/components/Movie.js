@@ -3,6 +3,34 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 
+function Movie({ id, coverImg, title, year, summary, genres }) {
+  return (
+    <MovieWrap>
+        <CovImg src={coverImg} alt={title} />
+        <MovieTitle>
+            <Link to={`/movie/${id}`}>{title}</Link>
+        </MovieTitle>
+        <Year>{year}</Year>
+        <p>{summary.length > 200 ? `${summary.slice(0, 200)}....` : summary}</p>
+        <MovieGenr>
+            { genres && genres.map((g) => (
+            <li key={g}>{g}</li>
+            ))}
+        </MovieGenr>
+    </MovieWrap>
+    
+  );
+}
+
+Movie.propTypes = {
+  id: PropTypes.number.isRequired,
+  coverImg: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  summary: PropTypes.string.isRequired,
+  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+
 const MovieWrap = styled.div`
     margin-bottom: 70px;
     font-weight: 300;
@@ -68,31 +96,5 @@ const MovieGenr = styled.ul`
     }
 `
 
-function Movie({ id, coverImg, title, year, summary, genres }) {
-  return (
-    <MovieWrap>
-        <CovImg src={coverImg} alt={title} />
-        <MovieTitle>
-            <Link to={`/movie/${id}`}>{title}</Link>
-        </MovieTitle>
-        <Year>{year}</Year>
-        <p>{summary.length > 200 ? `${summary.slice(0, 200)}....` : summary}</p>
-        <MovieGenr>
-            { genres && genres.map((g) => (
-            <li key={g}>{g}</li>
-            ))}
-        </MovieGenr>
-    </MovieWrap>
-    
-  );
-}
-
-Movie.propTypes = {
-  id: PropTypes.number.isRequired,
-  coverImg: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  summary: PropTypes.string.isRequired,
-  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
 
 export default Movie;
