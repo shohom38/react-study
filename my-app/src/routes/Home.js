@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import Movie from "../components/Movie";
 import styled from "styled-components";
 import axios from "axios";
+import { Layout, Menu } from "antd";
+import 'antd/dist/antd.css';
 
+const { Header, Content, Footer, Sider} = Layout;
 
 function Home() {
     const [loading, setLoading] = useState(true);
@@ -60,36 +63,46 @@ function Home() {
   // console.log(movies);
   // console.log(genres);
   return (
-    <div>
-
-        <Container>
-          <NavWrap> 
-            <Logo onClick={() => getMovies()}>RANK MOVIE</Logo>
-            <div>
-              {arrGenre.map((item, index) => (
-                  <NavBtn key={index} onClick={() => setGenre(item)}>{item}</NavBtn>
-              ))}
+    <Layout>
+      <Container>
+        <Sider breakpoint="lg" collapsedWidth={0} onBreakpoint={broken => {
+          console.log(broken);
+        }}
+        onCollapse={(collapsed, type) => {
+          console.log(collapsed, type);
+        }}> 
+          <HeadLogo className="site-layout-sub-header-background" style={{ padding: 0 }} onClick={() => setGenre('')}>RANK MOVIE</HeadLogo>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            {arrGenre.map((item, index) => (
+                <Menu.Item key={index} onClick={() => setGenre(item)}>{item}</Menu.Item>
+            ))}
+          </Menu>
+        </Sider>
+        <Layout>
+          <Content style={{ margin: '24px 16px 0' }}>
+            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+              {loading ? (
+                  <Loadings>Loading...</Loadings>
+                  ) : (
+                      <MovieWrap>
+                  {movies.map((movie) => (
+                      <Movie
+                      key={movie.id}
+                      id={movie.id}
+                      year={movie.year}
+                      coverImg={movie.medium_cover_image}
+                      title={movie.title}
+                      summary={movie.summary}
+                      genres={movie.genres}
+                      />
+                    ))}
+              </MovieWrap>
+              )}
             </div>
-          </NavWrap>
-            {loading ? (
-                <Loadings>Loading...</Loadings>
-                ) : (
-                    <MovieWrap>
-                {movies.map((movie) => (
-                    <Movie
-                    key={movie.id}
-                    id={movie.id}
-                    year={movie.year}
-                    coverImg={movie.medium_cover_image}
-                    title={movie.title}
-                    summary={movie.summary}
-                    genres={movie.genres}
-                    />
-                ))}
-        </MovieWrap>
-      )}
-    </Container>
-    </div>
+          </Content>
+        </Layout>
+      </Container>
+    </Layout>
   );
 }
 
@@ -99,41 +112,47 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const NavWrap = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 
-              0 8px 16px -8px rgba(0, 0, 0, 0.3), 
-              0 -6px 16px -6px rgba(0, 0, 0, 0.025);
-  background-color: #fff;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-around;
-  padding: 20px 20px;
-  z-index: 1;
-`;
-
-const NavBtn = styled.button`
-  border: none;
-  background-color: #eee;
-  width: 80px;
-  line-height: 80px;
-  vertical-align: middle;
-  transition: all 0.3s;
-  border-radius: 3px;
+const HeadLogo = styled(Header) `
+  color: #fff;
+  text-align: center;
   cursor: pointer;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: #cab4b4;
-    width: 75px;
-    line-height: 50px;
-    border-radius: 5px;
-    color: #fff
-  }
 `
+
+// const NavWrap = styled.div`
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 
+//               0 8px 16px -8px rgba(0, 0, 0, 0.3), 
+//               0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+//   background-color: #fff;
+//   display: flex;
+//   flex-flow: row nowrap;
+//   justify-content: space-around;
+//   padding: 20px 20px;
+//   z-index: 1;
+// `;
+
+// const Item = styled.button`
+//   border: none;
+//   background-color: #eee;
+//   width: 80px;
+//   line-height: 80px;
+//   vertical-align: middle;
+//   transition: all 0.3s;
+//   border-radius: 3px;
+//   cursor: pointer;
+//   white-space: nowrap;
+
+//   &:hover {
+//     background-color: #cab4b4;
+//     width: 75px;
+//     line-height: 50px;
+//     border-radius: 5px;
+//     color: #fff
+//   }
+// `
 
 const MovieWrap = styled.div`
     display: grid;
@@ -147,10 +166,6 @@ const MovieWrap = styled.div`
       grid-template-columns: 1fr;
       width: 100%;
   }
-`;
-
-const Logo = styled.h1`
-    cursor: pointer;
 `;
 
 const Loadings = styled.p`
