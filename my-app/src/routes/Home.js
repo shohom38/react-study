@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Movie from "../components/Movie";
 import styled from "styled-components";
 import axios from "axios";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Spin } from "antd";
 import 'antd/dist/antd.css';
 
 const { Header, Content, Footer, Sider} = Layout;
@@ -82,7 +82,9 @@ function Home() {
           <Content style={{ margin: '24px 16px 0' }}>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
               {loading ? (
-                  <Loadings>Loading...</Loadings>
+                  <Loadings>
+                    <Spin />
+                  </Loadings>
                   ) : (
                       <MovieWrap>
                   {movies.map((movie) => (
@@ -154,6 +156,17 @@ const HeadLogo = styled(Header) `
 //   }
 // `
 
+const Loadings = styled.div`
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    margin-bottom: 20px;
+    padding: 30px 50px;
+    text-align: center;
+    /* background: rgba(0, 0, 0, 0.05); */
+    border-radius: 4px;
+`
+
 const MovieWrap = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(400px, 1fr));
@@ -166,12 +179,6 @@ const MovieWrap = styled.div`
       grid-template-columns: 1fr;
       width: 100%;
   }
-`;
-
-const Loadings = styled.p`
-    margin-top: 200px;
-    font-weight: bold;
-    font-size: 30px;
 `;
 
 export default Home;

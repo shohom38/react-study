@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 import 'antd/dist/antd.css';
 
 const { Header, Content, Footer } = Layout;
@@ -29,7 +29,9 @@ function Detail() {
 
             <Container>
                 {loading ? (
-                    <h1>Loading...</h1>
+                    <Loading>
+                        <Spin />
+                    </Loading>
                     ) : (
                         <div>
                             <Header>
@@ -71,6 +73,15 @@ const Container = styled.div`
 //     padding: 20px 20px;
 //     z-index: 1;
 // `;
+
+const Loading = styled.div`
+    margin: 20px 0;
+    margin-bottom: 20px;
+    padding: 30px 50px;
+    text-align: center;
+    /* background: rgba(0, 0, 0, 0.05); */
+    border-radius: 4px;
+`
 
 const DetailCov = styled.div`
     margin-top: 140px;
