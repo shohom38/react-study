@@ -2,7 +2,10 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { Layout } from "antd";
+import 'antd/dist/antd.css';
 
+const { Header, Content, Footer } = Layout;
 
 function Detail() {
     const {id} = useParams();
@@ -22,26 +25,28 @@ function Detail() {
     // console.log(movie.year);
     // console.log(movie);
     return (
-        <div>
+        <Layout>
 
             <Container>
                 {loading ? (
                     <h1>Loading...</h1>
                     ) : (
                         <div>
-                            <NavWrap>
+                            <Header>
                                 <Link to={`/`}><LinkSpan>RANK HOME</LinkSpan></Link>
-                            </NavWrap>
-                            <DetailCov>
-                                <MovieTitle>{movie.title}</MovieTitle>
-                                <Year>{movie.year}</Year>
-                                <CovImg alt={movie.title} src={movie.medium_cover_image} />
-                                <p>{movie.description_full}</p>
-                            </DetailCov>
+                            </Header>
+                            <Content>
+                                <DetailCov>
+                                    <MovieTitle>{movie.title}</MovieTitle>
+                                    <Year>{movie.year}</Year>
+                                    <CovImg alt={movie.title} src={movie.medium_cover_image} />
+                                    <p>{movie.description_full}</p>
+                                </DetailCov>
+                            </Content>
                         </div>
             )}
             </Container>
-        </div>
+        </Layout>
   );
 }
 
@@ -51,21 +56,21 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const NavWrap = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 
-                0 8px 16px -8px rgba(0, 0, 0, 0.3), 
-                0 -6px 16px -6px rgba(0, 0, 0, 0.025);
-    background-color: #fff;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-evenly;
-    padding: 20px 20px;
-    z-index: 1;
-`;
+// const NavWrap = styled.div`
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 
+//                 0 8px 16px -8px rgba(0, 0, 0, 0.3), 
+//                 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+//     background-color: #fff;
+//     display: flex;
+//     flex-flow: row nowrap;
+//     justify-content: space-evenly;
+//     padding: 20px 20px;
+//     z-index: 1;
+// `;
 
 const DetailCov = styled.div`
     margin-top: 140px;
@@ -115,9 +120,14 @@ const CovImg = styled.img`
                 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
 `;
 
-const LinkSpan = styled.span`
+const LinkSpan = styled(Header)`
     text-decoration: none;
-    color: #000;
+    text-align: center;
+    color: #fff;
+    &:hover {
+        color: skyblue;
+        transition: all .5s;
+    }
 `;
 
 export default Detail;
