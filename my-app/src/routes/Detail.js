@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import { Layout, Spin } from "antd";
 import 'antd/dist/antd.css';
@@ -12,13 +13,17 @@ function Detail() {
     const [loading, setLoading] = useState(true);
     const [movie, setMovie] = useState([]);
     const getDetail = async () => {
-        const detail = await (
-            await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
-            ).json();
-            setMovie(detail.data.movie);
-            setLoading(false);
-    }
-    useEffect(() => {
+      await axios.get(
+            `https://yts.mx/api/v2/movie_details.json?movie_id=${id}`
+          ).then((Response) => {
+              console.log(Response.data.data.movie);
+              setMovie(Response.data.data.movie);
+          }).catch((Error) => {
+              console.log(Error);
+          })
+          setLoading(false);
+        };
+        useEffect(() => {
         getDetail();
     });
     // console.log(id);

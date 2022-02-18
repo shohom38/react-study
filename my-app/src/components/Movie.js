@@ -46,6 +46,7 @@ const MovieWrap = styled.div`
                 0 8px 16px -8px rgba(0, 0, 0, 0.3), 
                 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
     background-color: #fff;
+    
 `;
 
 
@@ -59,6 +60,10 @@ const MovieTitle = styled.h2`
         font-size: 24px;
         color: #2c2c2c;
         text-decoration: none;
+    }
+    &:hover {
+        transition: all .5s;
+        color: tomato;
     }
 `;
 

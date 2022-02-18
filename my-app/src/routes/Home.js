@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import Movie from "../components/Movie";
-import styled from "styled-components";
-import axios from "axios";
-import { Layout, Menu, Spin } from "antd";
+import { useEffect, useState } from 'react';
+import Movie from '../components/Movie';
+import styled from 'styled-components';
+import axios from 'axios';
+import { Layout, Menu, Breadcrumb, Spin } from 'antd';
+import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
-const { Header, Content, Footer, Sider} = Layout;
+const { SubMenu } = Menu;
+const { Header, Content, Sider, Footer} = Layout;
 
 function Home() {
     const [loading, setLoading] = useState(true);
@@ -65,22 +67,30 @@ function Home() {
   return (
     <Layout>
       <Container>
-        <Sider breakpoint="lg" collapsedWidth={0} onBreakpoint={broken => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}> 
-          <HeadLogo className="site-layout-sub-header-background" style={{ padding: 0 }} onClick={() => setGenre('')}>RANK MOVIE</HeadLogo>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-            {arrGenre.map((item, index) => (
-                <Menu.Item key={index} onClick={() => setGenre(item)}>{item}</Menu.Item>
-            ))}
+        <Header className='header'>
+          <HeadLogo className="logo" onClick={() => setGenre('')}>RANK MOVIE</HeadLogo>
+          <Menu theme="dark" mode='horizontal' defaultSelectedKeys={['1']}>
+
           </Menu>
-        </Sider>
-        <Layout>
-          <Content style={{ margin: '24px 16px 0' }}>
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+        </Header>
+        <Content>
+          <Layout>
+            <Sider>
+              <Menu
+                mode='inline'
+                defaultSelectedKeys={['1']}
+                defaultOpenKeys={['sub1']}
+                style={{ height: '100%' }}
+              >
+                <SubMenu key="sub1" icon={<UserOutlined />} title="Genres">
+                  {arrGenre.map((item, index) => (
+                    <Menu.Item key={index} onClick={() => setGenre(item)}>{item}</Menu.Item>
+                  ))}
+                </SubMenu>
+              </Menu>
+            </Sider>
+          
+            <Content className="site-layout-background" style={{ padding: '0 24', minHeight: 280 }}>
               {loading ? (
                   <Loadings>
                     <Spin />
@@ -100,24 +110,27 @@ function Home() {
                     ))}
               </MovieWrap>
               )}
-            </div>
-          </Content>
-        </Layout>
+            </Content>
+          </Layout>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          Ant Design ©2018 Created by Ant UED & SUM
+        </Footer>
       </Container>
     </Layout>
   );
-}
+                  }
 
 const Container = styled.div`
   height: 100%;
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  /* justify-content: center; */
 `;
 
-const HeadLogo = styled(Header) `
+const HeadLogo = styled.div `
   color: #fff;
-  text-align: center;
   cursor: pointer;
+  padding: 0 5px;
 `
 
 // const NavWrap = styled.div`
@@ -165,6 +178,10 @@ const Loadings = styled.div`
     text-align: center;
     /* background: rgba(0, 0, 0, 0.05); */
     border-radius: 4px;
+
+    & > div {
+      padding: 50%;
+    }
 `
 
 const MovieWrap = styled.div`
