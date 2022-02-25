@@ -4,15 +4,15 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import { Layout, Menu, Spin, Rate } from "antd";
-import { UserOutlined, FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
+import { UserOutlined, FrownFilled, MehFilled, SmileFilled } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
 const customIcons = {
-  1: <FrownOutlined />,
-  2: <FrownOutlined />,
-  3: <MehOutlined />,
-  4: <SmileOutlined />,
-  5: <SmileOutlined />,
+  1: <FrownFilled />,
+  2: <FrownFilled />,
+  3: <MehFilled />,
+  4: <SmileFilled />,
+  5: <SmileFilled />,
 }
 
 const { SubMenu } = Menu;
@@ -54,24 +54,26 @@ function Detail() {
                                 <HeaderLogo className="logo" to={`/`}><LinkSpan>RANK HOME</LinkSpan></HeaderLogo>
                                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}></Menu>
                             </Header>
-                            <Content style={{minHeight: "100%"}}>
-                              <Layout>
+                            <Content style={{minHeight: "100vh"}}>
+                              <Layout style={{minHeight: "100vh"}}>
                                 <Sider>
                                   <Menu 
                                     mode="inline"
                                     defaultSelectedKeys={['1']}
                                     defaultOpenKeys={['sub1']}
-                                    style={{ height: '100vh' }}
+                                    style={{ height: '100%' }}
                                   >
                                     <SubMenu key="sub1" icon={<UserOutlined />} title="Review"></SubMenu>
                                     <SubMenu key="sub2" icon={<UserOutlined />} title="Order"></SubMenu>
                                   </Menu>
                                 </Sider>
-                                <Content className="site-layout-background" style={{ padding: '0 24', minHeight: '100%', width: '100%', paddingLeft: '30px' }}>
+                                <Content className="site-layout-background" style={{ padding: '0 15px', minHeight: '100%', width: '100%'}}>
                                   <DetailCov>
                                       <MovieTitle>{movie.title}</MovieTitle>
                                       <Year>{movie.year}</Year>
-                                      <CovImg alt={movie.title} src={movie.medium_cover_image} />
+                                      <Frame>
+                                        <CovImg alt={movie.title} src={movie.medium_cover_image} />
+                                      </Frame>
                                       <p>{movie.description_full}</p>
                                       <RatePadding defaultValue={3} character={({ index }) => customIcons[index + 1]} />
                                   </DetailCov>
@@ -171,11 +173,26 @@ const Year = styled.h3`
 const CovImg = styled.img`
     max-width: 150px;
     width: 100%;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    
+    &:hover {
+      -webkit-transform: scale(1.3);
+      transform: scale(1.3);
+    }
+    `;
+
+const Frame = styled.div`
+    width: 150px;
+    height: 224px;
     margin-right: 30px;
+    overflow: hidden;
+    cursor: pointer;
     box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25), 
                 0 18px 36px -18px rgba(0, 0, 0, 0.3), 
                 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
-`;
+`
 
 const LinkSpan = styled(Header)`
     text-decoration: none;
