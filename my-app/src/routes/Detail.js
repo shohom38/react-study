@@ -3,10 +3,20 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import { Layout, Spin } from "antd";
+import { Layout, Menu, Spin, Rate } from "antd";
+import { UserOutlined, FrownFilled, MehFilled, SmileFilled } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
-const { Header, Content, Footer } = Layout;
+const customIcons = {
+  1: <FrownFilled />,
+  2: <FrownFilled />,
+  3: <MehFilled />,
+  4: <SmileFilled />,
+  5: <SmileFilled />,
+}
+
+const { SubMenu } = Menu;
+const { Header, Content, Sider, Footer} = Layout;
 
 function Detail() {
     const {id} = useParams();
@@ -33,23 +43,46 @@ function Detail() {
         <Layout>
 
             <Container>
+              
                 {loading ? (
                     <Loading>
                         <Spin />
                     </Loading>
                     ) : (
                         <div>
-                            <Header>
-                                <Link to={`/`}><LinkSpan>RANK HOME</LinkSpan></Link>
+                            <Header className="header">
+                                <HeaderLogo className="logo" to={`/`}><LinkSpan>RANK HOME</LinkSpan></HeaderLogo>
+                                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}></Menu>
                             </Header>
-                            <Content>
-                                <DetailCov>
-                                    <MovieTitle>{movie.title}</MovieTitle>
-                                    <Year>{movie.year}</Year>
-                                    <CovImg alt={movie.title} src={movie.medium_cover_image} />
-                                    <p>{movie.description_full}</p>
-                                </DetailCov>
+                            <Content style={{minHeight: "100vh"}}>
+                              <Layout style={{minHeight: "100vh"}}>
+                                <Sider>
+                                  <Menu 
+                                    mode="inline"
+                                    defaultSelectedKeys={['1']}
+                                    defaultOpenKeys={['sub1']}
+                                    style={{ height: '100%' }}
+                                  >
+                                    <SubMenu key="sub1" icon={<UserOutlined />} title="Review"></SubMenu>
+                                    <SubMenu key="sub2" icon={<UserOutlined />} title="Order"></SubMenu>
+                                  </Menu>
+                                </Sider>
+                                <Content className="site-layout-background" style={{ padding: '0 15px', minHeight: '100%', width: '100%'}}>
+                                  <DetailCov>
+                                      <MovieTitle>{movie.title}</MovieTitle>
+                                      <Year>{movie.year}</Year>
+                                      <Frame>
+                                        <CovImg alt={movie.title} src={movie.medium_cover_image} />
+                                      </Frame>
+                                      <p>{movie.description_full}</p>
+                                      <RatePadding defaultValue={3} character={({ index }) => customIcons[index + 1]} />
+                                  </DetailCov>
+                                </Content>
+                              </Layout>
                             </Content>
+                            <Footer style={{ textAlign: 'center' }}>
+                              Ant Design ©2018 Created by Ant UED & SUM
+                            </Footer>
                         </div>
             )}
             </Container>
@@ -59,8 +92,8 @@ function Detail() {
 
 const Container = styled.div`
   height: 100%;
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
 `;
 
 // const NavWrap = styled.div`
@@ -79,13 +112,23 @@ const Container = styled.div`
 //     z-index: 1;
 // `;
 
+const RatePadding = styled(Rate)`
+  padding-left: 10px;
+`
+
 const Loading = styled.div`
-    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
     margin-bottom: 20px;
     padding: 30px 50px;
     text-align: center;
     /* background: rgba(0, 0, 0, 0.05); */
     border-radius: 4px;
+
+    & > div {
+      padding: 50%;
+    }
 `
 
 const DetailCov = styled.div`
@@ -124,17 +167,32 @@ const Year = styled.h3`
     font-size: 14px;
     text-decoration: none;
     vertical-align: middle;
-    line-height: 14px;
+    line-height: 33px;
 `;
 
 const CovImg = styled.img`
     max-width: 150px;
     width: 100%;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    
+    &:hover {
+      -webkit-transform: scale(1.3);
+      transform: scale(1.3);
+    }
+    `;
+
+const Frame = styled.div`
+    width: 150px;
+    height: 224px;
     margin-right: 30px;
+    overflow: hidden;
+    cursor: pointer;
     box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25), 
                 0 18px 36px -18px rgba(0, 0, 0, 0.3), 
                 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
-`;
+`
 
 const LinkSpan = styled(Header)`
     text-decoration: none;
@@ -145,5 +203,9 @@ const LinkSpan = styled(Header)`
         transition: all .5s;
     }
 `;
+
+const HeaderLogo = styled(Link)`
+
+`
 
 export default Detail;
