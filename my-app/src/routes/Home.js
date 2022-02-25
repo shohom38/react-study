@@ -78,7 +78,7 @@ function Home() {
             <Sider>
               <Menu
                 mode='inline'
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={['0']}
                 defaultOpenKeys={['sub1']}
                 style={{ height: '100%' }}
               >
