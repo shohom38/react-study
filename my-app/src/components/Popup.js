@@ -55,14 +55,16 @@ const FadeIn = keyframes`
     }
 `
 
-const SlideX = keyframes`
+const SlideY = keyframes`
     from {
         opacity: 0;
-        transform: translateX(25%);
+        transform: translateY(-10%);
+        -webkit-transform: translateY(-10%);
     }
     to {
         opacity: 1;
-        transform: translateX(0%);
+        transform: translateY(0%);
+        -webkit-transform: translateY(0%);
     }
 `
 
@@ -81,11 +83,13 @@ const ImgPop = styled.div`
     z-index: 100;
     background: rgba(0,0,0,0.6);
     animation: ${FadeIn} 0.5s ease-in-out;
+    -webkit-animation: ${FadeIn} 0.5s ease-in-out;
     cursor: pointer;
 
     & > img {
         height: 100%;
-        animation: ${SlideX} 1s ease-in-out;
+        animation: ${SlideY} 1s ease-in-out;
+        -webkit-animation: ${SlideY} 1s ease-in-out;
         cursor: default;
     }
 `
