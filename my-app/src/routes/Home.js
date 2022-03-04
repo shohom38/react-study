@@ -113,9 +113,9 @@ function Home() {
             </Content>
           </Layout>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
+        <Footers style={{ textAlign: 'center' }}>
           Ant Design ©2018 Created by Ant UED & SUM
-        </Footer>
+        </Footers>
       </Container>
     </Layout>
   );
@@ -197,5 +197,9 @@ const MovieWrap = styled.div`
       width: 100%;
   }
 `;
+
+const Footers = styled(Footer)`
+  background: #e3e3e3;
+`
 
 export default Home;
