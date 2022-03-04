@@ -98,7 +98,7 @@ function Detail(props) {
                                       <p>{movie.description_full}</p>
                                       <RatePadding nodeRef={nodeRef} disabled allowHalf={true} value={rate/2} character={({ index }) => customIcons[index + 1]} />
                                       <Rate nodeRef={nodeRef} defaultValue={3} onChange={handleChange} allowHalf={true} value={value} character={({ index }) => customIcons[index + 1]} />
-                                      <p>로튼 토마토: {rate/2}</p>
+                                      <PaddingL>로튼 토마토: {rate/2}</PaddingL>
                                       <p>내 평점: {value}</p>
                                   </DetailCov>
                                 </Content>
@@ -140,6 +140,9 @@ const Container = styled.div`
 //     z-index: 1;
 // `;
 
+const PaddingL = styled.p`
+  padding-left: 10px;
+`
 const RatePadding = styled(Rate)`
   padding-left: 10px;
 `
