@@ -79,11 +79,13 @@ function Detail(props) {
                                 <Sider>
                                   <Menu 
                                     mode="inline"
-                                    defaultSelectedKeys={['1']}
+                                    defaultSelectedKeys={['0']}
                                     defaultOpenKeys={['sub1']}
                                     style={{ height: '100%' }}
                                   >
-                                    <SubMenu key="sub1" icon={<UserOutlined />} title="Review"></SubMenu>
+                                    <SubMenu key="sub1" icon={<UserOutlined />} title="Review">
+                                      <Menu.Item key={0}>Detail</Menu.Item>
+                                    </SubMenu>
                                     <SubMenu key="sub2" icon={<UserOutlined />} title="Order"></SubMenu>
                                   </Menu>
                                 </Sider>
