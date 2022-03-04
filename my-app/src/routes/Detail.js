@@ -69,7 +69,9 @@ function Detail(props) {
                     ) : (
                         <div>
                             <Header className="header">
-                                <HeaderLogo className="logo" to={`/`}><LinkSpan>RANK HOME</LinkSpan></HeaderLogo>
+                              <HeaderLogo>
+                                <Link className="logo" to={`/`}><LinkSpan>RANK MOVIE</LinkSpan></Link>
+                              </HeaderLogo>
                                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}></Menu>
                             </Header>
                             <Content style={{minHeight: "100vh"}}>
@@ -227,11 +229,11 @@ const Frame = styled.div`
     box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25), 
                 0 18px 36px -18px rgba(0, 0, 0, 0.3), 
                 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
-`
+`;
 
-const LinkSpan = styled(Header)`
+const LinkSpan = styled.span`
     text-decoration: none;
-    text-align: center;
+    /* text-align: center; */
     color: #fff;
     &:hover {
         color: skyblue;
@@ -239,8 +241,10 @@ const LinkSpan = styled(Header)`
     }
 `;
 
-const HeaderLogo = styled(Link)`
-
+const HeaderLogo = styled.div`
+  color: #fff;
+  cursor: pointer;
+  padding: 0 5px;
 `
 
 export default Detail;
