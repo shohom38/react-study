@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import { Layout, Menu, Spin, Rate } from "antd";
 import { UserOutlined, FrownFilled, MehFilled, SmileFilled } from '@ant-design/icons';
 import 'antd/dist/antd.css';
+import Popup from "../components/Popup";
 
 const customIcons = {
   1: <FrownFilled />,
@@ -18,24 +19,41 @@ const customIcons = {
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer} = Layout;
 
-function Detail() {
+function Detail(props) {
     const {id} = useParams();
+    const nodeRef = useRef(null);
     const [loading, setLoading] = useState(true);
     const [movie, setMovie] = useState([]);
-    const getDetail = async () => {
+    const [rate, setRate] = useState();
+    const getDetail = async (movie) => {
+      setMovie(movie);
+      setLoading(true);
       await axios.get(
             `https://yts.mx/api/v2/movie_details.json?movie_id=${id}`
           ).then((Response) => {
-              console.log(Response.data.data.movie);
+              console.log(Response.data.data.movie.rating);
               setMovie(Response.data.data.movie);
+              setRate(Response.data.data.movie.rating);
           }).catch((Error) => {
               console.log(Error);
           })
           setLoading(false);
         };
         useEffect(() => {
-        getDetail();
-    });
+        getDetail(movie);
+    }, []);
+
+    const [value, setValue] = useState(3);
+    
+    function handleChange(value) {
+      console.log("밸류값 : ", value);
+      setValue(value);
+    }
+
+
+
+    const [popup, handlePopup] = useState(false);
+
     // console.log(id);
     // console.log(movie.year);
     // console.log(movie);
@@ -71,24 +89,34 @@ function Detail() {
                                   <DetailCov>
                                       <MovieTitle>{movie.title}</MovieTitle>
                                       <Year>{movie.year}</Year>
-                                      <Frame>
+                                      <Frame onClick={() => {
+                                        handlePopup(true);
+                                      }}>
                                         <CovImg alt={movie.title} src={movie.medium_cover_image} />
                                       </Frame>
+                                      {popup && <Popup onClose={handlePopup} />}
                                       <p>{movie.description_full}</p>
-                                      <RatePadding defaultValue={3} character={({ index }) => customIcons[index + 1]} />
+                                      <RatePadding nodeRef={nodeRef} disabled allowHalf={true} value={rate/2} character={({ index }) => customIcons[index + 1]} />
+                                      <Rate nodeRef={nodeRef} defaultValue={3} onChange={handleChange} allowHalf={true} value={value} character={({ index }) => customIcons[index + 1]} />
+                                      <p>로튼 토마토: {rate/2}</p>
+                                      <p>내 평점: {value}</p>
                                   </DetailCov>
                                 </Content>
                               </Layout>
                             </Content>
-                            <Footer style={{ textAlign: 'center' }}>
+                            <Footers style={{ textAlign: 'center' }}>
                               Ant Design ©2018 Created by Ant UED & SUM
-                            </Footer>
+                            </Footers>
                         </div>
             )}
             </Container>
         </Layout>
   );
 }
+
+const Footers = styled(Footer)`
+  background: #e3e3e3;
+`
 
 const Container = styled.div`
   height: 100%;
@@ -133,6 +161,7 @@ const Loading = styled.div`
 
 const DetailCov = styled.div`
     margin-top: 140px;
+    margin-bottom: 140px;
     font-weight: 300;
     padding: 20px;
     border-radius: 5px;
@@ -151,6 +180,7 @@ const DetailCov = styled.div`
 
 const MovieTitle = styled.h2`
     margin: 0;
+    padding-left: 1em;
     text-decoration: none;
 
     & a {
@@ -174,18 +204,20 @@ const CovImg = styled.img`
     max-width: 150px;
     width: 100%;
     transform: scale(1);
+    transition: .3s ease-in-out;
     -webkit-transform: scale(1);
     -webkit-transition: .3s ease-in-out;
     
     &:hover {
-      -webkit-transform: scale(1.3);
-      transform: scale(1.3);
+      -webkit-transform: scale(1.2);
+      transform: scale(1.2);
     }
     `;
 
 const Frame = styled.div`
     width: 150px;
     height: 224px;
+    margin-left: 1em;
     margin-right: 30px;
     overflow: hidden;
     cursor: pointer;
